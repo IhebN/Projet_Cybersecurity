@@ -1,75 +1,90 @@
-Exercice 1 – Projet Réseau
-1. Présentation du projet
-Ce projet consiste à concevoir et configurer un réseau informatique en utilisant Cisco Packet Tracer.
-L’objectif est de mettre en place une infrastructure réseau fonctionnelle avec :
-•	Plusieurs VLAN
-•	Des liaisons trunk
-•	Du routage inter-VLAN
-•	Un service DHCP
-•	Une connexion Wi-Fi via des Access Points
-________________________________________
-2. Objectifs techniques
-Les objectifs principaux de ce projet sont :
-•	Segmenter le réseau avec des VLAN
-•	Permettre la communication entre les VLAN grâce au routeur
-•	Fournir automatiquement des adresses IP avec DHCP
-•	Mettre en place l’accès Wi-Fi pour les laptops
-•	Vérifier le bon fonctionnement avec des tests de connectivité
-________________________________________
-3. Topologie du réseau
-Le réseau est composé de :
-•	1 routeur (Router0)
-•	3 switches (Switch3, Switch4, Switch5)
-•	Des PC, laptops et téléphones IP
-•	Des Access Points pour le Wi-Fi
-Les switches sont interconnectés en trunk et le routeur est relié au switch central pour assurer le routage inter-VLAN.
-________________________________________
-4. Étapes de réalisation
-4.1 Câblage
-•	Connexion des PC, laptops et téléphones IP aux switches
-•	Connexion des switches entre eux
-•	Connexion du switch principal au routeur
-•	Connexion des Access Points aux switches
-________________________________________
-4.2 Création des VLAN
-VLAN	Nom	Usage
-10	WIFI	Réseau Wi-Fi
-20	PC_FIXES	Postes fixes
-30	ADMIN	Administration
-1	Default	VLAN natif
-Les VLAN suivants ont été créés :
-________________________________________
-4.3 Configuration des ports
-•	Les ports reliés aux utilisateurs sont configurés en mode access
-•	Les ports entre switches et vers le routeur sont configurés en mode trunk
-•	Les VLAN 1,10,20,30 sont autorisés sur les trunks
-4.4 Configuration du routeur
-•	Mise en place du router-on-a-stick
-•	Création des sous-interfaces :
-o	G0/0.10 → VLAN 10
-o	G0/0.20 → VLAN 20
-o	G0/0.30 → VLAN 30
-•	Attribution des adresses IP passerelles :
-o	192.168.10.1
-o	192.168.20.1
-o	192.168.30.1
+# Exercice 1 – Mise en place d’un réseau VLAN
 
-4.5 Mise en place du DHCP
-•	Création de pools DHCP pour chaque VLAN
-•	Attribution automatique des adresses IP
-•	Configuration du DNS (8.8.8.8)
-________________________________________
-4.6 Configuration du Wi-Fi
-•	Paramétrage des Access Points
-•	Création du SSID
-•	Connexion des laptops en Wi-Fi
-•	Vérification de l’accès réseau
-________________________________________
-5. Tests et validation
-Les tests suivants ont été réalisés :
-•	Ping entre les PC et leur passerelle
-•	Ping entre machines de VLAN différents
-•	Vérification de l’attribution automatique d’IP
-•	Test de connexion Wi-Fi
-•	Vérification du routage inter-VLAN
+## Objectif
+Mettre en place un réseau d’entreprise avec :
+- segmentation par VLAN,
+- liaisons trunk entre les équipements,
+- routage inter-VLAN,
+- service DHCP,
+- connectivité Wi-Fi.
 
+Le but est de permettre la communication entre les différents réseaux
+tout en gardant une organisation claire du trafic.
+
+---
+
+## Environnement
+- Cisco Packet Tracer
+- 1 routeur Cisco 1941
+- 3 switches
+- 3 points d’accès Wi-Fi
+- PC fixes, PC portables, téléphones IP
+
+---
+
+## Architecture du réseau
+Chaque bureau contient :
+- 2 PC fixes,
+- 1 PC portable connecté en Wi-Fi,
+- 1 téléphone IP,
+- 1 point d’accès,
+- 1 switch.
+
+Les switches sont reliés entre eux en **trunk**.  
+Le routeur est connecté au switch principal en **trunk** afin d’assurer
+le **routage inter-VLAN** (Router-on-a-Stick).
+
+---
+
+## VLAN et plan d’adressage
+
+| VLAN | Usage            | Réseau              |
+|------|------------------|---------------------|
+| 1    | Téléphonie VoIP  | 192.168.0.0/24      |
+| 10   | Wi-Fi            | 192.168.10.0/24     |
+| 20   | PC fixes         | 192.168.20.0/24     |
+| 30   | Administration   | 192.168.30.0/24     |
+
+La passerelle de chaque VLAN est configurée sur le routeur avec l’adresse x.x.x.1.
+
+---
+
+## Étapes de réalisation
+
+### 1. Câblage
+- Les postes, téléphones et points d’accès sont connectés sur des ports **access**.
+- Les liaisons entre switches sont configurées en **trunk**.
+- La liaison routeur–switch est configurée en **trunk**.
+
+### 2. Configuration des switches
+- Création des VLAN 10, 20 et 30.
+- Affectation des ports :
+  - Téléphones → VLAN 1
+  - Points d’accès → VLAN 10
+  - PC fixes → VLAN 20
+  - Administration → VLAN 30
+- Configuration des ports trunk entre les switches.
+
+### 3. Configuration du routeur
+- Mise en place du **Router-on-a-Stick** avec des sous-interfaces :
+  - G0/0.1  → VLAN 1
+  - G0/0.10 → VLAN 10
+  - G0/0.20 → VLAN 20
+  - G0/0.30 → VLAN 30
+- Configuration du service **DHCP** pour chaque VLAN.
+
+### 4. Tests
+- Vérification de l’attribution automatique des adresses IP.
+- Test de connectivité avec des commandes **ping**.
+- Test de communication inter-VLAN.
+- Test de la connexion Wi-Fi.
+
+---
+
+## Résultat
+Le réseau est entièrement fonctionnel :
+- Tous les équipements reçoivent une adresse IP automatiquement.
+- Les VLAN sont correctement segmentés.
+- Les liaisons trunk assurent la circulation des VLAN.
+- Le routage inter-VLAN permet la communication entre les réseaux.
+- Le Wi-Fi fonctionne dans chaque bureau.
